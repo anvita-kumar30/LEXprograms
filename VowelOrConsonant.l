@@ -1,27 +1,21 @@
 %{
-	void display(int, char *);
-	int flag;
+#include <stdio.h>
 %}
 
 %%
-[a|e|i|o|u] { flag=1; display(flag,yytext); }
-.	{ flag=0; display(flag,yytext); }
+[a-zA-Z]      {
+                char ch = yytext[0];
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ||
+                    ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U') {
+                    printf("'%c' is a vowel\n", ch);
+                } else {
+                    printf("'%c' is a consonant\n", ch);
+                }
+              }
+.             { printf("'%c' is not an alphabetic character\n", yytext[0]); }
 %%
 
-void main()
-{
-	printf("\nEnter a character: ");
-	yylex();
-}
-
-void display(int flag, char *t)
-{
-	if(flag==1)
-	{
-		printf("\nThe given character %s is a vowel\n",t);
-	}
-	else
-	{
-		printf("\nThe given character %s is a consonant\n",t);
-	}
+int main() {
+    yylex();  
+    return 0;
 }
